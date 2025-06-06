@@ -19,7 +19,7 @@ namespace CarRentalApp
 
         private void addRentalRecordToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var addRentalRecord = new AddRentalRecord();
+            var addRentalRecord = new AddEditRentalRecord();
             addRentalRecord.MdiParent = this;
             addRentalRecord.Show();
         }

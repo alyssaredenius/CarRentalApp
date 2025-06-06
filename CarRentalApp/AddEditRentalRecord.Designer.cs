@@ -1,6 +1,6 @@
 ﻿namespace CarRentalApp
 {
-    partial class AddRentalRecord
+    partial class AddEditRentalRecord
     {
         /// <summary>
         /// Required designer variable.
@@ -39,14 +39,15 @@
             this.button1 = new System.Windows.Forms.Button();
             this.tbCost = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblTitle = new System.Windows.Forms.Label();
+            this.lblRecordId = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // tbCustomerName
             // 
             this.tbCustomerName.Location = new System.Drawing.Point(12, 126);
             this.tbCustomerName.Name = "tbCustomerName";
-            this.tbCustomerName.Size = new System.Drawing.Size(234, 26);
+            this.tbCustomerName.Size = new System.Drawing.Size(234, 20);
             this.tbCustomerName.TabIndex = 1;
             // 
             // label2
@@ -63,7 +64,7 @@
             // 
             this.dtpRented.Location = new System.Drawing.Point(12, 195);
             this.dtpRented.Name = "dtpRented";
-            this.dtpRented.Size = new System.Drawing.Size(230, 26);
+            this.dtpRented.Size = new System.Drawing.Size(230, 20);
             this.dtpRented.TabIndex = 3;
             // 
             // label3
@@ -80,7 +81,7 @@
             // 
             this.dtpReturned.Location = new System.Drawing.Point(400, 195);
             this.dtpReturned.Name = "dtpReturned";
-            this.dtpReturned.Size = new System.Drawing.Size(230, 26);
+            this.dtpReturned.Size = new System.Drawing.Size(230, 20);
             this.dtpReturned.TabIndex = 5;
             // 
             // label4
@@ -129,7 +130,7 @@
             // 
             this.tbCost.Location = new System.Drawing.Point(400, 126);
             this.tbCost.Name = "tbCost";
-            this.tbCost.Size = new System.Drawing.Size(230, 26);
+            this.tbCost.Size = new System.Drawing.Size(230, 20);
             this.tbCost.TabIndex = 10;
             // 
             // label6
@@ -142,21 +143,31 @@
             this.label6.TabIndex = 11;
             this.label6.Text = "Cost";
             // 
-            // label1
+            // lblTitle
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Britannic Bold", 42F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(96, 18);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(483, 62);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Add Rental Record";
+            this.lblTitle.AutoSize = true;
+            this.lblTitle.Font = new System.Drawing.Font("Britannic Bold", 42F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitle.Location = new System.Drawing.Point(96, 18);
+            this.lblTitle.Name = "lblTitle";
+            this.lblTitle.Size = new System.Drawing.Size(483, 62);
+            this.lblTitle.TabIndex = 0;
+            this.lblTitle.Text = "Add Rental Record";
             // 
-            // AddRentalRecord
+            // lblRecordId
+            // 
+            this.lblRecordId.AutoSize = true;
+            this.lblRecordId.Location = new System.Drawing.Point(206, 322);
+            this.lblRecordId.Name = "lblRecordId";
+            this.lblRecordId.Size = new System.Drawing.Size(0, 13);
+            this.lblRecordId.TabIndex = 12;
+            this.lblRecordId.Visible = false;
+            // 
+            // AddEditRentalRecord
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(676, 372);
+            this.Controls.Add(this.lblRecordId);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.tbCost);
             this.Controls.Add(this.button1);
@@ -168,8 +179,8 @@
             this.Controls.Add(this.dtpRented);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.tbCustomerName);
-            this.Controls.Add(this.label1);
-            this.Name = "AddRentalRecord";
+            this.Controls.Add(this.lblTitle);
+            this.Name = "AddEditRentalRecord";
             this.Text = "Add Rental Record";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
@@ -189,7 +200,8 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox tbCost;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblTitle;
+        private System.Windows.Forms.Label lblRecordId;
     }
 }
 
