@@ -13,22 +13,26 @@ namespace CarRentalApp
     public partial class AddEditVehicle : Form
     {
         private bool isEditMode;
+        private ManageVehicleListing _manageVehicleListing;
         private readonly CarRentalEntities _db;
 
-        public AddEditVehicle()
+        public AddEditVehicle(ManageVehicleListing manageVehicleListing = null)
         {
             InitializeComponent();
-            _db = new CarRentalEntities(); // Ensure _db is initialized
             lblTitle.Text = "Add New Vehicle";
+            this.Text = "Add New Vehicle";
             isEditMode = false;
+            _manageVehicleListing = manageVehicleListing;
+            _db = new CarRentalEntities();
         }
 
-        public AddEditVehicle(TypesOfCar carToEdit)
+        public AddEditVehicle(TypesOfCar carToEdit, ManageVehicleListing manageVehicleListing = null)
         {
             InitializeComponent();
             _db = new CarRentalEntities();
             lblTitle.Text = "Edit Vehicle";
             isEditMode = true;
+            _manageVehicleListing = manageVehicleListing;
             PopulateFields(carToEdit);
         }
 
@@ -44,45 +48,58 @@ namespace CarRentalApp
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            //if(isEditMode == true)
-            if (isEditMode)
+            try
             {
-                // Edit Code here
-                var id = int.Parse(lblId.Text);
-                var car = _db.TypesOfCars.FirstOrDefault(q => q.Id == id);
-                car.Model = tbModel.Text;
-                car.Make = tbMake.Text;
-                car.VIN = tbVIN.Text;
-                try
+                if (string.IsNullOrWhiteSpace(tbMake.Text) || string.IsNullOrWhiteSpace(tbModel.Text))
                 {
-                    car.Year = int.Parse(tbYear.Text);
-                }
-                catch
-                {
-                    MessageBox.Show("Please enter a valid year.");
+                    MessageBox.Show("Please fill in all fields.");
                     return;
                 }
-                car.LicensePlateNumber = tbLisencePlate.Text;
-
-                _db.SaveChanges();
-                Close();
-            }
-            else
-            {
-                // Add Code here
-                var newCar = new TypesOfCar
+                else
                 {
-                    LicensePlateNumber = tbLisencePlate.Text,
-                    Make = tbMake.Text,
-                    Model = tbModel.Text,
-                    VIN = tbVIN.Text,
-                    Year = int.Parse(tbYear.Text)
-                };
-                _db.TypesOfCars.Add(newCar);
-                _db.SaveChanges();
+                    //if(isEditMode == true)
+                    if (isEditMode)
+                    {
+                        // Edit Code here
+                        var id = int.Parse(lblId.Text);
+                        var car = _db.TypesOfCars.FirstOrDefault(q => q.Id == id);
+                        car.Model = tbModel.Text;
+                        car.Make = tbMake.Text;
+                        car.VIN = tbVIN.Text;
+                        car.Year = int.Parse(tbYear.Text);
+                        car.LicensePlateNumber = tbLisencePlate.Text;
+
+                        _db.SaveChanges();
+                        Close();
+                    }
+                    else
+                    {
+                        // Add Code here
+                        var newCar = new TypesOfCar
+                        {
+                            LicensePlateNumber = tbLisencePlate.Text,
+                            Make = tbMake.Text,
+                            Model = tbModel.Text,
+                            VIN = tbVIN.Text,
+                            Year = int.Parse(tbYear.Text)
+                        };
+
+                        _db.TypesOfCars.Add(newCar);
+
+                    }
+
+                    _db.SaveChanges();
+                    _manageVehicleListing.PopulateGrid(); // Refresh the vehicle listing grid
+                    MessageBox.Show("Vehicle added successfully!");
+                    Close();
+                }
             }
-            Close();
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
         }
+
                 private void btnCancel_Click(object sender, EventArgs e)
                 {
                     Close();

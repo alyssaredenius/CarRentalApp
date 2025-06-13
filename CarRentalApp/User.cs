@@ -12,15 +12,10 @@ namespace CarRentalApp
     using System;
     using System.Collections.Generic;
     
-    public partial class CarRentalRecord
+    public partial class User
     {
         public int id { get; set; }
-        public string CustomerName { get; set; }
-        public Nullable<System.DateTime> DateRented { get; set; }
-        public Nullable<System.DateTime> DateReturned { get; set; }
-        public Nullable<decimal> Cost { get; set; }
-        public Nullable<int> TypeOfCarID { get; set; }
-    
-        public virtual TypesOfCar TypesOfCar { get; set; }
+        public string username { get; set; }
+        public string password { get; set; }
     }
 }

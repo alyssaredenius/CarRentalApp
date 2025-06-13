@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnRefreshRecord = new System.Windows.Forms.Button();
             this.btnDeleteRecord = new System.Windows.Forms.Button();
             this.btnEditRecord = new System.Windows.Forms.Button();
             this.btnAddRecord = new System.Windows.Forms.Button();
@@ -36,16 +35,6 @@
             this.gvRecordList = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.gvRecordList)).BeginInit();
             this.SuspendLayout();
-            // 
-            // btnRefreshRecord
-            // 
-            this.btnRefreshRecord.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRefreshRecord.Location = new System.Drawing.Point(498, 433);
-            this.btnRefreshRecord.Name = "btnRefreshRecord";
-            this.btnRefreshRecord.Size = new System.Drawing.Size(103, 44);
-            this.btnRefreshRecord.TabIndex = 11;
-            this.btnRefreshRecord.Text = "Refresh Record";
-            this.btnRefreshRecord.UseVisualStyleBackColor = true;
             // 
             // btnDeleteRecord
             // 
@@ -105,13 +94,12 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(660, 491);
-            this.Controls.Add(this.btnRefreshRecord);
             this.Controls.Add(this.btnDeleteRecord);
             this.Controls.Add(this.btnEditRecord);
             this.Controls.Add(this.btnAddRecord);
             this.Controls.Add(this.lblRentalRecord);
             this.Controls.Add(this.gvRecordList);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "ManageRentalRecords";
             this.Text = "Manage Rental Records";
             this.Load += new System.EventHandler(this.ManageRentalRecords_Load);
@@ -122,8 +110,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Button btnRefreshRecord;
         private System.Windows.Forms.Button btnDeleteRecord;
         private System.Windows.Forms.Button btnEditRecord;
         private System.Windows.Forms.Button btnAddRecord;

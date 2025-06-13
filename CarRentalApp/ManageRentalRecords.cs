@@ -12,47 +12,50 @@ namespace CarRentalApp
 {
     public partial class ManageRentalRecords : Form
     {
+        private bool isEditMode;
         private readonly CarRentalEntities _db;
 
         public ManageRentalRecords()
         {
             InitializeComponent();
             _db = new CarRentalEntities();
-
         }
 
-        private void PopulateGrid()
-        
-            {
-                var records = _db.CarRentalRecords
-        .Select(q => new
+
+        private void ManageRentalRecords_Load(object sender, EventArgs e)
         {
-            q.CustomerName,
-            q.DateRented,
-            q.DateReturned,
-            q.id,
-            q.Cost,
-            Car = q.TypesOfCar.Make + " " + q.TypesOfCar.Model,
-        })
-        .ToList();
+            try
+            {
+                PopulateGrid();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while loading records: {ex.Message}");
+
+            }
+            var records = _db.CarRentalRecords.Select(q => new
+            {
+                Customer = q.CustomerName,
+                DateOut = q.DateRented,
+                DateIn = q.DateReturned,
+                Id = q.id,
+                q.Cost,
+                Car = q.TypesOfCar.Make + " " + q.TypesOfCar.Model,
+            }).ToList();
             gvRecordList.DataSource = records;
-            gvRecordList.Columns["DateReturned"].HeaderText = "Date In";
-            gvRecordList.Columns["DateRented"].HeaderText = "Date Out";
-            gvRecordList.Columns["Id"].Visible = false; // Hide Id column
+            gvRecordList.Columns["DateIn"].HeaderText = "Date In";
+            gvRecordList.Columns["DateOut"].HeaderText = "Date Out";
+            gvRecordList.Columns["Id"].Visible = false;
         }
 
         private void btnAddRecord_Click(object sender, EventArgs e)
         {
             try
             {
-                var addEditRecord = new AddEditRentalRecord
-                {
-                    MdiParent = this.MdiParent
-                };
+                var addEditRecord = new AddEditRentalRecord();
+                addEditRecord.MdiParent = this.MdiParent;
                 addEditRecord.Show();
-                gvRecordList.Refresh();
-                PopulateGrid();
-                addEditRecord.FormClosed += (s, args) => PopulateGrid(); // Refresh grid after closing
+                addEditRecord.FormClosed += (s, args) => PopulateGrid();
             }
             catch (Exception ex)
             {
@@ -72,14 +75,10 @@ namespace CarRentalApp
                 var record = _db.CarRentalRecords.FirstOrDefault(q => q.id == id);
 
                 // launch AddEditVehicle window with data
-                //var addEditRecord = new AddRentalRecord
-                //{
-                //    MdiParent = this.MdiParent
-                //};
-                //addEditRecord.Show();
-                gvRecordList.Refresh();
-                PopulateGrid();
-                //addEditRecord.FormClosed += (s, args) => PopulateGrid();
+                var addEditRecord = new AddEditRentalRecord(record);
+                addEditRecord.MdiParent = this.MdiParent;
+                addEditRecord.Show();
+                addEditRecord.FormClosed += (s, args) => PopulateGrid();
             }
             catch
             {
@@ -97,12 +96,20 @@ namespace CarRentalApp
                 // query database for record
                 var record = _db.CarRentalRecords.FirstOrDefault(q => q.id == id);
 
-                // delete vehicle from table
-                _db.CarRentalRecords.Remove(record);
+                DialogResult dr = MessageBox.Show($"Are you sure you want to delete this record?",
+                    "Delete", MessageBoxButtons.YesNoCancel,
+                    MessageBoxIcon.Warning);
+
+                if (dr == DialogResult.Yes)
+                {
+                    _db.CarRentalRecords.Remove(record);
+                    _db.SaveChanges();
+                }
+
                 _db.SaveChanges();
-                gvRecordList.Refresh();
                 PopulateGrid();
             }
+
             catch (Exception ex)
             {
                 MessageBox.Show($"An error occurred: {ex.Message}");
@@ -110,17 +117,22 @@ namespace CarRentalApp
             PopulateGrid(); // Refresh grid after deletion
         }
 
-        private void ManageRentalRecords_Load(object sender, EventArgs e)
+        private void PopulateGrid()
         {
-            try
+            var records = _db.CarRentalRecords.Select(q => new
             {
-                PopulateGrid();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"An error occurred while loading records: {ex.Message}");
+                Customer = q.CustomerName,
+                DateOut = q.DateRented,
+                DateIn = q.DateReturned,
+                Id = q.id,
+                q.Cost,
+                Car = q.TypesOfCar.Make + " " + q.TypesOfCar.Model,
+            }).ToList();
+            gvRecordList.DataSource = records;
+            gvRecordList.Columns["DateIn"].HeaderText = "Date In";
+            gvRecordList.Columns["DateOut"].HeaderText = "Date Out";
+            gvRecordList.Columns["Id"].Visible = false;
 
-            }
-}
+        }
     }
 }

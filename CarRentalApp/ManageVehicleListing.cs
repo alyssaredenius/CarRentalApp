@@ -22,10 +22,17 @@ namespace CarRentalApp
 
         private void ManageVehicleListing_Load(object sender, EventArgs e)
         {
-            //var cars = _db.TypesOfCars.ToList();
-            //var cars = _db.TypesOfCars.Select(q => new { CarID = q.Id, CarName = q.Make }).ToList();
+            try
+            {
+                PopulateGrid();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred: {ex.Message}");
+            }
 
-            var cars = _db.TypesOfCars
+
+                var cars = _db.TypesOfCars
                 .Select(q => new 
                 {
                     q.Make,
@@ -37,8 +44,6 @@ namespace CarRentalApp
                 })
                 .ToList();
             gvVehicleList.DataSource = cars;
-            //gvVehicleList.Columns[0].HeaderText = "ID";
-            //gvVehicleList.Columns[1].HeaderText = "NAME";
             gvVehicleList.Columns[4].HeaderText = "License Plate Number";
             gvVehicleList.Columns[5].Visible = false;
         }
@@ -47,7 +52,7 @@ namespace CarRentalApp
         {
             try
             {
-                var addEditVehicle = new AddEditVehicle();
+                var addEditVehicle = new AddEditVehicle(this);
                 addEditVehicle.MdiParent = this.MdiParent;
                 addEditVehicle.Show();
                 addEditVehicle.FormClosed += (s, args) => PopulateGrid(); // Refresh grid after closing
@@ -69,7 +74,7 @@ namespace CarRentalApp
                 var car = _db.TypesOfCars.FirstOrDefault(q => q.Id == id);
 
                 // launch AddEditVehicle window with data
-                var addEditVehicle = new AddEditVehicle(car);
+                var addEditVehicle = new AddEditVehicle(car, this);
                 addEditVehicle.MdiParent = this.MdiParent;
                 addEditVehicle.Show();
                 addEditVehicle.FormClosed += (s, args) => PopulateGrid();
@@ -90,11 +95,21 @@ namespace CarRentalApp
                 // query database for record
                 var car = _db.TypesOfCars.FirstOrDefault(q => q.Id == id);
 
-                // delete vehicle from table
-                _db.TypesOfCars.Remove(car);
+                DialogResult dr = MessageBox.Show($"Are you sure you want to delete the vehicle: {car.Make} {car.Model}?",
+                    "Delete", MessageBoxButtons.YesNoCancel,
+                    MessageBoxIcon.Warning);
+
+                if (dr == DialogResult.Yes)
+                {
+                    _db.TypesOfCars.Remove(car);
+                    _db.SaveChanges();
+                }
+
                 _db.SaveChanges();
-                gvVehicleList.Refresh();
+                PopulateGrid();
             }
+
+
             catch (Exception ex)
             {
                 MessageBox.Show($"An error occurred: {ex.Message}");
@@ -102,11 +117,7 @@ namespace CarRentalApp
             PopulateGrid(); // Refresh grid after deletion
         }
 
-        private void btnRefresh_Click(object sender, EventArgs e)
-        {
-            //simple refresh option
-            PopulateGrid();
-        }
+
         //New Function to PopulateGrid. Can be called anytime we need a grid refresh
         public void PopulateGrid()
         {

@@ -49,7 +49,7 @@ namespace CarRentalApp
             }
         }
 
-
+        
         private void PopulateFields(CarRentalRecord recordToEdit)
         {
                 tbCustomerName.Text = recordToEdit.CustomerName;
@@ -57,7 +57,7 @@ namespace CarRentalApp
                 dtpReturned.Value = (DateTime)recordToEdit.DateReturned;
                 tbCost.Text = recordToEdit.Cost.ToString();
                 lblRecordId.Text = recordToEdit.id.ToString();
-
+            var carType = cmbCarType.Text;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -73,7 +73,7 @@ namespace CarRentalApp
                 var isValid = true;
                 var errorMessage = "";
 
-                if (string.IsNullOrWhiteSpace(customerName)) || string.IsNullOrWhiteSpace(carType))
+                if (string.IsNullOrWhiteSpace(customerName) || string.IsNullOrWhiteSpace(carType))
                 {
                     isValid = false;
                     errorMessage += "Customer Name and Car Type are required.\n\r";
@@ -82,39 +82,36 @@ namespace CarRentalApp
                 {
                     errorMessage += "Error: Illegal Date Selection\n\r";
                 }
+
+
                 if (isValid)
                 {
+                    var rentalRecord = new CarRentalRecord();
                     if (isEditMode)
                     {
                         var id = int.Parse(lblRecordId.Text);
-                        var rentalRecord = _db.CarRentalRecords.FirstOrDefault(q => q.id == id);
+                        var record = _db.CarRentalRecords.FirstOrDefault(q => q.id == id);
+                    }
+
                         rentalRecord.CustomerName = customerName;
                         rentalRecord.DateRented = dateOut;
                         rentalRecord.DateReturned = dateIn;
                         rentalRecord.Cost = (decimal)cost;
-                        rentalRecord.TypeOfCarId = (int)cmbCarType.SelectedValue;
-                    }
-                    else
-                    {
-                    var rentalRecord = new CarRentalRecord();
-                    rentalRecord.CustomerName = customerName;
-                    rentalRecord.DateRented = dateOut;
-                    rentalRecord.DateReturned = dateIn;
-                    rentalRecord.Cost = (decimal)cost;
-                    rentalRecord.TypeOfCarId = (int)cmbCarType.SelectedValue;
+                        rentalRecord.TypeOfCarID = (int)cmbCarType.SelectedValue;
 
-                    _db.CarRentalRecords.Add(rentalRecord);
+                    // If not in edit move, then add the record object to the database
+                   if (!isEditMode)
+                        _db.CarRentalRecords.Add(rentalRecord);
                     _db.SaveChanges();
 
                     MessageBox.Show($"Customer Name: {customerName}\n\r" +
-                        $"Date Rented: {dateOut}\n\r" +
-                        $"Date Returned: {dateIn}\n\r" +
-                        $"Cost: {cost}\n\r" +
-                        $"Car Type: {carType}\n\r" +
-                        $"THANK YOU FOR YOUR BUSINESS");
+                    $"Date Rented: {dateOut}\n\r" +
+                    $"Date Returned: {dateIn}\n\r" +
+                    $"Cost: {cost}\n\r" +
+                    $"Car Type: {carType}\n\r" +
+                    $"THANK YOU FOR YOUR BUSINESS");
+                    Close();       
                 }
-                    }
-                    
                 else
                 {
                     MessageBox.Show(errorMessage);
@@ -124,20 +121,17 @@ namespace CarRentalApp
             {
                 MessageBox.Show(ex.Message);
             }
+
         }
 
 
                     private void Form1_Load(object sender, EventArgs e)
                     {
                         // select * from TypesofCards
-                        //var cars = carRentalEntities.TypesOfCars.ToList();           
+                        // var cars = carRentalEntities.TypesOfCars.ToList();           
 
                         var cars = _db.TypesOfCars
-                            .Select(q => new
-                            {
-                                q.Id,
-                                Name = $"{q.Make} {q.Model} ({q.Year})" // Display format
-                            })
+                            .Select(q => new {Id = q.Id, Name = q.Make + " " + q.Model})
                             .ToList();
                         cmbCarType.DisplayMember = "Name";
                         cmbCarType.ValueMember = "Id";
