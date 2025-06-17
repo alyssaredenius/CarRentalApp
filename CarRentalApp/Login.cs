@@ -29,27 +29,27 @@ namespace CarRentalApp
                 var username = tbUsername.Text.Trim();
                 var password = tbPassword.Text;
 
-                byte[] data = sha.ComputeHash(Encoding.UTF8.GetBytes(password));
 
-                StringBuilder sBuilder = new StringBuilder();
+                var hashed_password = Utils.HashPassword(password);
 
-                for (int i = 0; i < data.Length; i++)
-                {
-                    sBuilder.Append(data[i].ToString("x2"));
-                }
+                var user = _db.Users.FirstOrDefault(q => q.username == username && q.password == hashed_password
+                    && q.isActive == true);
 
-                var hashed_password = sBuilder.ToString();
-
-                var user = _db.Users.FirstOrDefault(q => q.username == username && q.password == hashed_password);
                 if(user == null)
                 {
                     MessageBox.Show("Invalid username or password. Please try again.");
                 }
                 else
                 {
-                    var mainWindow = new MainWindow(this);
+                    var mainWindow = new MainWindow(this, user);
                     mainWindow.Show();
-                    this.Hide(); // Hide the login form
+                    Hide(); // Hide the login form
+
+                    //var role = user.UserRoles.FirstOrDefault();
+                    //var roleName = role.Role.shortname;
+                    //var mainWindow = new MainWindow(this, roleName);
+                    //mainWindow.Show();
+                    //this.Hide(); // Hide the login form
                 }
             }
             catch (Exception ex)
