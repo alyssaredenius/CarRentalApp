@@ -39,7 +39,7 @@
             // btnDeactivateUser
             // 
             this.btnDeactivateUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDeactivateUser.Location = new System.Drawing.Point(473, 395);
+            this.btnDeactivateUser.Location = new System.Drawing.Point(444, 458);
             this.btnDeactivateUser.Name = "btnDeactivateUser";
             this.btnDeactivateUser.Size = new System.Drawing.Size(145, 44);
             this.btnDeactivateUser.TabIndex = 15;
@@ -50,7 +50,7 @@
             // btnResetPassword
             // 
             this.btnResetPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnResetPassword.Location = new System.Drawing.Point(330, 395);
+            this.btnResetPassword.Location = new System.Drawing.Point(301, 458);
             this.btnResetPassword.Name = "btnResetPassword";
             this.btnResetPassword.Size = new System.Drawing.Size(103, 43);
             this.btnResetPassword.TabIndex = 14;
@@ -61,7 +61,7 @@
             // btnAddUser
             // 
             this.btnAddUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddUser.Location = new System.Drawing.Point(198, 395);
+            this.btnAddUser.Location = new System.Drawing.Point(169, 458);
             this.btnAddUser.Name = "btnAddUser";
             this.btnAddUser.Size = new System.Drawing.Size(103, 44);
             this.btnAddUser.TabIndex = 13;
@@ -86,14 +86,14 @@
             this.gvUserList.Name = "gvUserList";
             this.gvUserList.RowHeadersWidth = 62;
             this.gvUserList.RowTemplate.Height = 28;
-            this.gvUserList.Size = new System.Drawing.Size(574, 304);
+            this.gvUserList.Size = new System.Drawing.Size(574, 352);
             this.gvUserList.TabIndex = 11;
             // 
             // ManageUsers
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 530);
             this.Controls.Add(this.btnDeactivateUser);
             this.Controls.Add(this.btnResetPassword);
             this.Controls.Add(this.btnAddUser);
@@ -101,6 +101,7 @@
             this.Controls.Add(this.gvUserList);
             this.Name = "ManageUsers";
             this.Text = "Manage Users";
+            this.Load += new System.EventHandler(this.ManageUsers_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gvUserList)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
